@@ -2,6 +2,7 @@ import { MsgView } from './../views/msg-view.js';
 import { Negociacao } from "../models/negociacao.js";
 import { Negociacoes } from "../models/negociacoes.js";
 import { NegociacoesView } from "../views/negociacoes-view.js";
+import { DiaDaSemana } from '../enums/dia-da-semana.js';
 export class NegociacaoController {
     constructor() {
         this.negociacoes = new Negociacoes();
@@ -14,10 +15,14 @@ export class NegociacaoController {
     }
     adiciona() {
         const negociacao = this.criaNegociacao();
-        this.negociacoes.adiciona(negociacao);
-        this.negociacoesView.update(this.negociacoes);
-        this.msgView.update('Negociação criada e adicionada com sucesso!');
-        this.limpaFormulario();
+        if (negociacao.data.getDay() > DiaDaSemana.Domingo && negociacao.data.getDay() < DiaDaSemana.Sabado) {
+            this.negociacoes.adiciona(negociacao);
+            this.limpaFormulario();
+            this.atualizaView();
+        }
+        else {
+            this.msgView.update("Por favor, insira apenas negociações feitas em dias úteis");
+        }
     }
     criaNegociacao() {
         const exp = /-/g;
@@ -31,5 +36,9 @@ export class NegociacaoController {
         this.inputQuantidade.value = '';
         this.inputValor.value = '';
         this.inputData.focus();
+    }
+    atualizaView() {
+        this.negociacoesView.update(this.negociacoes);
+        this.msgView.update('Negociação criada e adicionada com sucesso!');
     }
 }
