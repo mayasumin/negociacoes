@@ -1,6 +1,6 @@
 import { NegociacaoController } from './controllers/negociacao-controller.js';
-const form = document.querySelector(".form");
 const controller = new NegociacaoController();
+const form = document.querySelector('.form');
 if (form) {
     form.addEventListener('submit', event => {
         event.preventDefault();
@@ -8,5 +8,5 @@ if (form) {
     });
 }
 else {
-    throw Error('Não foi possível iniciar a aplicação. Verifique se o form existe');
+    throw Error('Não foi possível inicializar a aplicação. Verifique se o form existe.');
 }

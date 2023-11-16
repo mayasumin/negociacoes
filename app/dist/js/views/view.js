@@ -3,10 +3,10 @@ export class View {
         this.escapar = false;
         const elemento = document.querySelector(seletor);
         if (elemento) {
-            this.element = document.querySelector(seletor);
+            this.elemento = elemento;
         }
         else {
-            throw Error(`O seletor ${seletor} não existe no DOM. Verifique`);
+            throw Error(`Seletor ${seletor} não existe no DOM. Verifique`);
         }
         if (escapar) {
             this.escapar = escapar;
@@ -15,8 +15,9 @@ export class View {
     update(model) {
         let template = this.template(model);
         if (this.escapar) {
-            template = template.replace(/<script>[\s\S]*?<script>/, '');
+            template = template
+                .replace(/<script>[\s\S]*?<\/script>/, '');
         }
-        this.element.innerHTML = template;
+        this.elemento.innerHTML = template;
     }
 }
